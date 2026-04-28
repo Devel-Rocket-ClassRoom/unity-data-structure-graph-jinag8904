@@ -123,11 +123,4 @@ public class Map    // 타일 전체를 관리
 
         return true;
     }
-
-    public void UpdateFogs(int boundary, int tileId)
-    {
-        tiles[tileId].isVisited = true;
-
-
-    }
 }

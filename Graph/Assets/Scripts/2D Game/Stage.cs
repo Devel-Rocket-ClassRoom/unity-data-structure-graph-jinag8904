@@ -192,6 +192,9 @@ public class Stage : MonoBehaviour
 
     public void UpdateFogs(int boundary, int tileId)
     {
-        map.UpdateFogs(boundary, tileId);
+        var tilePos = GetTilePos(tileId);
+        map.tiles[tileId].isVisited = true;
+
+        DecorateTile(tileId);
     }
 }
