@@ -1,7 +1,4 @@
-using System;
-using System.Collections;
 using System.Collections.Generic;
-using System.Text;
 using UnityEngine;
 
 public class GraphSearch
@@ -154,13 +151,13 @@ public class GraphSearch
 
             if (visited.Contains(currentNode)) continue;
 
+            visited.Add(currentNode);
+
             if (currentNode == end_node)
             {
                 found = true;
                 break;
             }
-
-            visited.Add(currentNode);
 
             foreach (var adjacent in currentNode.adjacents)
             {
@@ -171,7 +168,7 @@ public class GraphSearch
                 if (distances[adjacent.id] > newDistance)
                 {
                     distances[adjacent.id] = newDistance;
-                    adjacent.previous = currentNode;
+                    adjacent.previous = currentNode;    // 나중에 길 찾기 용도
                     pq.Enqueue(adjacent, distances[adjacent.id]);
                 }
             }

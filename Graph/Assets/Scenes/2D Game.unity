@@ -205,8 +205,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 113798249}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 1, z: -10}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: -10}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -265,9 +265,10 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1042924096}
+  - component: {fileID: 1042924097}
   m_Layer: 0
   m_Name: Stage
-  m_TagString: Untagged
+  m_TagString: Map
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -281,12 +282,61 @@ Transform:
   m_GameObject: {fileID: 1042924095}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 1.28482, y: 0, z: 9.83122}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1042924097
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1042924095}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ef20cf8a2a345e249b23072a8ad7d951, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Stage
+  tilePrefab: {fileID: 2752262225749577198, guid: 4a264749165de8d448354db060a95109, type: 3}
+  mapWidth: 25
+  mapHeight: 25
+  erodePercent: 0.9
+  erodeIteration: 2
+  lakePercent: 0.1
+  treePercent: 0.1
+  hillPercent: 0.1
+  mountainPercent: 0.1
+  townPercent: 0.1
+  monsterPercent: 0.1
+  tileSize: {x: 16, y: 16}
+  islandSprites:
+  - {fileID: 21300000, guid: 6dda2095192964815b349ac505a5e664, type: 3}
+  - {fileID: 21300002, guid: 6dda2095192964815b349ac505a5e664, type: 3}
+  - {fileID: 21300004, guid: 6dda2095192964815b349ac505a5e664, type: 3}
+  - {fileID: 21300006, guid: 6dda2095192964815b349ac505a5e664, type: 3}
+  - {fileID: 21300008, guid: 6dda2095192964815b349ac505a5e664, type: 3}
+  - {fileID: 21300010, guid: 6dda2095192964815b349ac505a5e664, type: 3}
+  - {fileID: 21300012, guid: 6dda2095192964815b349ac505a5e664, type: 3}
+  - {fileID: 21300014, guid: 6dda2095192964815b349ac505a5e664, type: 3}
+  - {fileID: 21300016, guid: 6dda2095192964815b349ac505a5e664, type: 3}
+  - {fileID: 21300018, guid: 6dda2095192964815b349ac505a5e664, type: 3}
+  - {fileID: 21300020, guid: 6dda2095192964815b349ac505a5e664, type: 3}
+  - {fileID: 21300022, guid: 6dda2095192964815b349ac505a5e664, type: 3}
+  - {fileID: 21300024, guid: 6dda2095192964815b349ac505a5e664, type: 3}
+  - {fileID: 21300026, guid: 6dda2095192964815b349ac505a5e664, type: 3}
+  - {fileID: 21300028, guid: 6dda2095192964815b349ac505a5e664, type: 3}
+  - {fileID: 21300030, guid: 6dda2095192964815b349ac505a5e664, type: 3}
+  - {fileID: 21300032, guid: 6dda2095192964815b349ac505a5e664, type: 3}
+  - {fileID: 21300034, guid: 6dda2095192964815b349ac505a5e664, type: 3}
+  - {fileID: 21300036, guid: 6dda2095192964815b349ac505a5e664, type: 3}
+  - {fileID: 21300038, guid: 6dda2095192964815b349ac505a5e664, type: 3}
+  - {fileID: 21300040, guid: 6dda2095192964815b349ac505a5e664, type: 3}
+  - {fileID: 21300042, guid: 6dda2095192964815b349ac505a5e664, type: 3}
+  cam: {fileID: 113798251}
+  playerPrefab: {fileID: 3518942956101731918, guid: 87155ca1f9c66ea4a9e8e3a585d31449, type: 3}
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0
