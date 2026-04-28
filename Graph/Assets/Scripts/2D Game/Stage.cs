@@ -144,9 +144,13 @@ public class Stage : MonoBehaviour
             {
                 renderer.sprite = islandSprites[tile.autoTileId];
             }
-            else
+            else if (0 < tile.autoTileId && tile.autoTileId < 16)
             {
                 renderer.sprite = fogSprites[tile.autoTileId];
+            }
+            else
+            {
+                renderer.sprite = islandSprites[tile.autoTileId];
             }
         }
         else
