@@ -85,7 +85,7 @@ public class Stage : MonoBehaviour
         CreatePlayer();
 
         // 안개 업데이트
-        map.UpdateFogs(player.boundary, WorldPosToTileId(player.transform.position));
+        UpdateFogs(player.boundary, WorldPosToTileId(player.transform.position));
     }
 
     private void CreatePlayer()
@@ -138,20 +138,16 @@ public class Stage : MonoBehaviour
         var tileGo = tileObjs[tileId];
 
         var renderer = tileGo.GetComponent<SpriteRenderer>();
-        if (tile.autoTileId != (int)TileTypes.Empty)
+        if (tile.autoTileId != (int)TileTypes.Empty)    // 분기
         {
-            //foreach (var t in tile.adjacents)
-            //{
-                //if (t.isVisited)
-                //{
-                    renderer.sprite = islandSprites[tile.autoTileId];
-                //    break;
-                //}
-                //else
-                //{
-                    //renderer.sprite = fogSprites[tile.autoTileId];
-                //}
-            //}
+            if (tile.isVisited)
+            {
+                renderer.sprite = islandSprites[tile.autoTileId];
+            }
+            else
+            {
+                renderer.sprite = fogSprites[tile.autoTileId];
+            }
         }
         else
         {
@@ -192,5 +188,10 @@ public class Stage : MonoBehaviour
         pos.y -= y * tileSize.y;
 
         return pos;
+    }
+
+    public void UpdateFogs(int boundary, int tileId)
+    {
+        map.UpdateFogs(boundary, tileId);
     }
 }

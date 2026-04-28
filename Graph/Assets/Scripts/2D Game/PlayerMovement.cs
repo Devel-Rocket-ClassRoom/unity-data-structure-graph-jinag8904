@@ -56,6 +56,6 @@ public class PlayerMovement : MonoBehaviour
     public void MoveTo(int tileId)
     {
         currentTileId = tileId;
-        transform.position = stage.GetTilePos(currentTileId);
+        stage.UpdateFogs(boundary, currentTileId);
     }
 }
