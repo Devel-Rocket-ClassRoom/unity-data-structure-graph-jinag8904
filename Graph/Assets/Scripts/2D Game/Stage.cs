@@ -28,6 +28,7 @@ public class Stage : MonoBehaviour
     public Vector2 tileSize = new(16, 16);
 
     public Sprite[] islandSprites;
+    public Sprite[] fogSprites;
 
     public Map Map => map;
     private Map map;
@@ -39,7 +40,6 @@ public class Stage : MonoBehaviour
     public PlayerMovement playerPrefab;
     private PlayerMovement player;
 
-    // 추가
     public Vector3 FirstTilePos
     {
         get
@@ -83,6 +83,9 @@ public class Stage : MonoBehaviour
         map.CreateIsland(erodePercent, erodeIteration, lakePercent, treePercent, hillPercent, mountainPercent, townPercent, monsterPercent);
         CreateGrid();
         CreatePlayer();
+
+        // 안개 업데이트
+        map.UpdateFogs(player.boundary, WorldPosToTileId(player.transform.position));
     }
 
     private void CreatePlayer()
@@ -137,8 +140,18 @@ public class Stage : MonoBehaviour
         var renderer = tileGo.GetComponent<SpriteRenderer>();
         if (tile.autoTileId != (int)TileTypes.Empty)
         {
-            Debug.Log(tile.autoTileId);
-            renderer.sprite = islandSprites[tile.autoTileId];
+            //foreach (var t in tile.adjacents)
+            //{
+                //if (t.isVisited)
+                //{
+                    renderer.sprite = islandSprites[tile.autoTileId];
+                //    break;
+                //}
+                //else
+                //{
+                    //renderer.sprite = fogSprites[tile.autoTileId];
+                //}
+            //}
         }
         else
         {

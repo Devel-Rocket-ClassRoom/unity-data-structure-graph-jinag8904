@@ -7,10 +7,12 @@ public class PlayerMovement : MonoBehaviour
 
     private int currentTileId;
 
+    public int boundary = 3;
+
     private void Awake()
     {
         animator = GetComponent<Animator>();
-        animator.speed = 0;
+        //animator.speed = 0;
 
         var findGo = GameObject.FindWithTag("Map");
         stage = findGo.GetComponent<Stage>();
@@ -35,7 +37,7 @@ public class PlayerMovement : MonoBehaviour
             direction = Sides.Bottom;
         }
 
-        else if (Input.GetKeyDown (KeyCode.D))
+        else if (Input.GetKeyDown(KeyCode.D))
         {
             direction = Sides.Right;
         }
