@@ -116,7 +116,7 @@ public class Map    // 타일 전체를 관리
 
         var towns = tiles.Where(x => x.autoTileId == (int)TileTypes.Towns).ToArray();
         ShuffleTiles(towns);
-
+       
         startTile = towns[0];
         castleTile = towns[1];
         castleTile.autoTileId = (int)TileTypes.Castle;

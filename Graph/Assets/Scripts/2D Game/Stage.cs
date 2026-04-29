@@ -1,5 +1,7 @@
+using Unity.VisualScripting;
 using UnityEditor.SceneManagement;
 using UnityEngine;
+using static GraphTest;
 
 public class Stage : MonoBehaviour
 {
@@ -33,6 +35,7 @@ public class Stage : MonoBehaviour
 
     public Map Map => map;
     private Map map;
+    private Graph graph;
 
     private Camera cam;
 
@@ -81,9 +84,16 @@ public class Stage : MonoBehaviour
                 prevTileId = currentTileId;
             }
 
-            if (Input.GetMouseButtonDown(0))
+            if (Input.GetMouseButtonDown(0))    // 길찾기
             {
+                int startId = player.isMoving ? player.targetTileId : player.currentTileId;
 
+                if (startId == -1) startId = player.currentTileId;
+
+                if (startId >= 0 && startId < graph.nodes.Length && currentTileId >= 0 && currentTileId < graph.nodes.Length)
+                {
+                    Search(startId, currentTileId);
+                }
             }
         }
     }
@@ -95,6 +105,38 @@ public class Stage : MonoBehaviour
         map.CreateIsland(erodePercent, erodeIteration, lakePercent, treePercent, hillPercent, mountainPercent, townPercent, monsterPercent);
         CreateGrid();
         CreatePlayer();
+
+        graph = new();
+        int[,] graphMap = new int[mapHeight, mapWidth];
+
+        for (int i = 0; i < mapHeight; i++)
+        {
+            for (int j = 0; j < mapWidth; j++)
+            {
+                var weight = 1;
+                var tileId = map.tiles[i * mapWidth + j].autoTileId;
+
+                switch (tileId)
+                {
+                    case (int)TileTypes.Empty:
+                    case (int)TileTypes.Mountains:
+                        weight = -1;
+                        break;
+
+                    case (int)TileTypes.Hills:
+                        weight = 4;
+                        break;
+
+                    case (int)TileTypes.Tree:
+                        weight = 2;
+                        break;
+                }
+
+                graphMap[i, j] = weight;
+            }
+        }
+
+        graph.Init(graphMap);
     }
 
     private void CreatePlayer()
@@ -105,7 +147,7 @@ public class Stage : MonoBehaviour
         }
 
         player = Instantiate(playerPrefab);
-        player.MoveTo(map.startTile.id);
+        player.WarpTo(map.startTile.id);
     }
 
     private void CreateGrid()
@@ -184,7 +226,7 @@ public class Stage : MonoBehaviour
     public void OnTileVisited(Tile tile)
     {
         int centerX = tile.id % mapWidth;
-        int centerY = tile.id / mapHeight;
+        int centerY = tile.id / mapWidth;
 
         for (int i = -player.sight; i <= player.sight; i++)  // ex. 시야 3 -> 실제로는 현위치+상하좌우 3칸씩 -> 7x7
         {
@@ -200,18 +242,18 @@ public class Stage : MonoBehaviour
             }
         }
 
-        var radius = player.sight + 1;
-        for (int i = -radius; i <= radius; i++)  // ex. 시야 3 -> 실제로는 현위치+상하좌우 3칸씩 -> 7x7
+        var radius = player.sight + 1;  // 시야 바로 바깥쪽 타일들(안개) 업데이트 용도
+        for (int i = -radius; i <= radius; i++) 
         {
             for (int j = -radius; j <= radius; j++)
             {
                 int x = centerX + i;
                 int y = centerY + j;
 
-                if (x < 0 || y < 0 || x >= mapWidth || y >= mapHeight) continue;    // 맵 범위를 넘어가면 그대로 둠
+                if (x < 0 || y < 0 || x >= mapWidth || y >= mapHeight) continue;
 
-                int viewTileId = y * mapWidth + x;    // 밝힐 타일의 Id 계산
-                Map.tiles[viewTileId].Visit();        // visit 플래그 설정                
+                int viewTileId = y * mapWidth + x;
+                DecorateTile(viewTileId);      
             }
         }
     }
@@ -249,5 +291,34 @@ public class Stage : MonoBehaviour
         pos.y -= y * tileSize.y;
 
         return pos;
+    }
+
+    public void Search(int startId, int endId)
+    {
+        if (startId < 0 || startId >= graph.nodes.Length || endId < 0 || endId >= graph.nodes.Length)
+        {
+            Debug.LogError($"인덱스 범위 초과 Start: {startId}, End: {endId}, Max: {graph.nodes.Length}");
+            return;
+        }
+
+        var search = new GraphSearch();
+        search.Init(graph);
+
+        search.AStar(graph.nodes[startId], graph.nodes[endId]);
+        Debug.Log("search.AStar()");
+
+        if (search.path.Count <= 1)
+        {
+            Debug.Log("search.path.Count <= 1");
+
+            if (search.path.Count == 1)
+            {
+                // 시작점, 끝점이 같은 경우
+            }
+
+            return;
+        }
+
+         player.MovePath(search.path);
     }
 }

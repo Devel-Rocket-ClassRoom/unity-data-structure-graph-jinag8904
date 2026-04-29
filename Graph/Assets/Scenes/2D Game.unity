@@ -352,7 +352,6 @@ MonoBehaviour:
   - {fileID: 21300026, guid: dfa5f63634ba24c06a7c899467e4f9f3, type: 3}
   - {fileID: 21300028, guid: dfa5f63634ba24c06a7c899467e4f9f3, type: 3}
   - {fileID: 21300030, guid: dfa5f63634ba24c06a7c899467e4f9f3, type: 3}
-  cam: {fileID: 113798251}
   playerPrefab: {fileID: 3518942956101731918, guid: 87155ca1f9c66ea4a9e8e3a585d31449, type: 3}
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
