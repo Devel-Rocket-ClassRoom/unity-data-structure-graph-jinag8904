@@ -58,19 +58,7 @@ public class PlayerMovement : MonoBehaviour
         currentTileId = tileId;
         transform.position = stage.GetTilePos(currentTileId);
 
-        for (int i = -sight; i <= sight; i++)  // ex. 시야 3 -> 실제로는 현위치+상하좌우 3칸씩 -> 7x7
-        {
-            for (int j = -sight; j <= sight; j++)
-            {
-                int x = currentTileId % stage.mapWidth + i;
-                int y = currentTileId / stage.mapHeight + j;
-
-                if (x < 0 || y < 0 || x >= stage.mapWidth || y >= stage.mapHeight) continue;    // 맵 범위를 넘어가면 그대로 둠
-
-                int viewTileId = y * stage.mapWidth + x;    // 밝힐 타일의 Id 계산
-                stage.Map.tiles[viewTileId].Visit();        // visit 플래그 설정
-            }
-        }
+        stage.OnTileVisited(stage.Map.tiles[currentTileId]);       
 
         stage.DecorateAllTiles();   // 타일 업데이트
     }

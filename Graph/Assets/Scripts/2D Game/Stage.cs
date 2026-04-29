@@ -1,3 +1,4 @@
+using UnityEditor.SceneManagement;
 using UnityEngine;
 
 public class Stage : MonoBehaviour
@@ -177,6 +178,41 @@ public class Stage : MonoBehaviour
         for (int i = 0; i < tileObjs.Length; i++)
         {
             DecorateTile(i);
+        }
+    }
+
+    public void OnTileVisited(Tile tile)
+    {
+        int centerX = tile.id % mapWidth;
+        int centerY = tile.id / mapHeight;
+
+        for (int i = -player.sight; i <= player.sight; i++)  // ex. 시야 3 -> 실제로는 현위치+상하좌우 3칸씩 -> 7x7
+        {
+            for (int j = -player.sight; j <= player.sight; j++)
+            {
+                int x = centerX + i;
+                int y = centerY + j;
+
+                if (x < 0 || y < 0 || x >= mapWidth || y >= mapHeight) continue;    // 맵 범위를 넘어가면 그대로 둠
+
+                int viewTileId = y * mapWidth + x;    // 밝힐 타일의 Id 계산
+                Map.tiles[viewTileId].Visit();        // visit 플래그 설정                
+            }
+        }
+
+        var radius = player.sight + 1;
+        for (int i = -radius; i <= radius; i++)  // ex. 시야 3 -> 실제로는 현위치+상하좌우 3칸씩 -> 7x7
+        {
+            for (int j = -radius; j <= radius; j++)
+            {
+                int x = centerX + i;
+                int y = centerY + j;
+
+                if (x < 0 || y < 0 || x >= mapWidth || y >= mapHeight) continue;    // 맵 범위를 넘어가면 그대로 둠
+
+                int viewTileId = y * mapWidth + x;    // 밝힐 타일의 Id 계산
+                Map.tiles[viewTileId].Visit();        // visit 플래그 설정                
+            }
         }
     }
 
