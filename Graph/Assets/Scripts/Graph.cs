@@ -1,5 +1,3 @@
-using UnityEngine;
-
 public class Graph
 {
     public int rows = 0;

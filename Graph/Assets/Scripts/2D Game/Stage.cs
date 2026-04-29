@@ -159,7 +159,7 @@ public class Stage : MonoBehaviour
                 renderer.sprite = null;
             }
         }
-        else // 방문하지 않은 타일 -> 안개 적용
+        else // 방문하지 않은(공개되지 않은) 타일 -> 안개 적용
         {
             if (tile.autoTileId != (int)TileTypes.Empty && tile.fogTileId != (int)TileTypes.Empty && tile.fogTileId != -1)
             {
@@ -213,13 +213,5 @@ public class Stage : MonoBehaviour
         pos.y -= y * tileSize.y;
 
         return pos;
-    }
-
-    public void UpdateFogs(int boundary, int tileId)
-    {
-        var tilePos = GetTilePos(tileId);
-        map.tiles[tileId].isVisited = true;
-
-        DecorateTile(tileId);
     }
 }
