@@ -127,3 +127,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 12ae814f793a6664ebadb2cfeea48824, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Player
+  sight: 1

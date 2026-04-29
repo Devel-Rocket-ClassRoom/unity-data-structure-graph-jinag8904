@@ -301,8 +301,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Stage
   tilePrefab: {fileID: 2752262225749577198, guid: 4a264749165de8d448354db060a95109, type: 3}
-  mapWidth: 25
-  mapHeight: 25
+  mapWidth: 20
+  mapHeight: 20
   erodePercent: 0.9
   erodeIteration: 2
   lakePercent: 0.1

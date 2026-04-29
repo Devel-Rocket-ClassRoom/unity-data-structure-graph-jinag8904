@@ -33,7 +33,7 @@ public class Stage : MonoBehaviour
     public Map Map => map;
     private Map map;
 
-    public Camera cam;
+    private Camera cam;
 
     private int prevTileId = -1;
 
@@ -53,6 +53,11 @@ public class Stage : MonoBehaviour
         }
     }
 
+    private void Start()
+    {
+        cam = Camera.main;
+    }
+
     private void Update()
     {
         if (Input.GetKeyDown(KeyCode.Space))
@@ -63,6 +68,7 @@ public class Stage : MonoBehaviour
         if (tileObjs != null)
         {
             int currentTileId = ScreenPosToTileId(Input.mousePosition);
+
             if (prevTileId != currentTileId)
             {
                 tileObjs[currentTileId].GetComponent<SpriteRenderer>().color = Color.green;
@@ -72,6 +78,11 @@ public class Stage : MonoBehaviour
                 }
 
                 prevTileId = currentTileId;
+            }
+
+            if (Input.GetMouseButtonDown(0))
+            {
+
             }
         }
     }
@@ -83,9 +94,6 @@ public class Stage : MonoBehaviour
         map.CreateIsland(erodePercent, erodeIteration, lakePercent, treePercent, hillPercent, mountainPercent, townPercent, monsterPercent);
         CreateGrid();
         CreatePlayer();
-
-        // 안개 업데이트
-        UpdateFogs(player.boundary, WorldPosToTileId(player.transform.position));
     }
 
     private void CreatePlayer()
@@ -136,26 +144,39 @@ public class Stage : MonoBehaviour
     {
         var tile = map.tiles[tileId];
         var tileGo = tileObjs[tileId];
-
         var renderer = tileGo.GetComponent<SpriteRenderer>();
-        if (tile.autoTileId != (int)TileTypes.Empty)    // 분기
+
+        if (tile == null) return;
+
+        if (tile.isVisited) // 방문한 타일 -> 해당 타일 스프라이트 적용
         {
-            if (tile.isVisited)
+            if (tile.autoTileId != (int)TileTypes.Empty)
             {
                 renderer.sprite = islandSprites[tile.autoTileId];
-            }
-            else if (0 < tile.autoTileId && tile.autoTileId < 16)
-            {
-                renderer.sprite = fogSprites[tile.autoTileId];
             }
             else
             {
-                renderer.sprite = islandSprites[tile.autoTileId];
+                renderer.sprite = null;
             }
         }
-        else
+        else // 방문하지 않은 타일 -> 안개 적용
         {
-            renderer.sprite = null;
+            if (tile.autoTileId != (int)TileTypes.Empty && tile.fogTileId != (int)TileTypes.Empty && tile.fogTileId != -1)
+            {
+                renderer.sprite = fogSprites[tile.fogTileId];
+            }
+            else
+            {
+                renderer.sprite = null;
+            }
+        }
+    }
+
+    public void DecorateAllTiles()
+    {
+        for (int i = 0; i < tileObjs.Length; i++)
+        {
+            DecorateTile(i);
         }
     }
 
